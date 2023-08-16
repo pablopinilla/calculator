@@ -29,17 +29,28 @@ const multiplyBtn = document.querySelector(".multiply")
 const divideBtn = document.querySelector(".divide")
 const equalBtn = document.querySelector(".equal")
 
-addBtn.addEventListener("click", operate)
+addBtn.addEventListener("click", ()=> {
+    switchA = 1
+    display.textContent = "+"
+    operator = "add"
+    console.log(operator)
+})
 subtractBtn.addEventListener("click", ()=> {
-    operator = "-"
+    switchA = 1
+    display.textContent = "-"
+    operator = "subtract"
     console.log(operator)
 })
 multiplyBtn.addEventListener("click", ()=> {
-    operator = "*"
+    switchA = 1
+    display.textContent = "/"
+    operator = "multiply"
     console.log(operator)
 })
 divideBtn.addEventListener("click", ()=> {
-    operator = "/"
+    switchA = 1
+    display.textContent = "*"
+    operator = "divide"
     console.log(operator)
 })
 
@@ -59,30 +70,60 @@ const numbers = document.querySelectorAll(".number")
 const display = document.querySelector(".display")
 let value = 0
 
+let tempA = ""
+let tempB = ""
+let switchA = 0
 numbers.forEach((number) =>{
     number.addEventListener("click", ()=> {
-        display.textContent = number.textContent
-        a = number.textContent
-        console.log(a)
+        if (switchA === 0){
+            tempA = tempA + number.textContent
+            display.textContent = tempA
+            a = tempA
+            console.log(tempA, a, "from a")    
+        } else {
+            tempB = tempB + number.textContent
+            display.textContent = tempB
+            b = tempB
+            console.log(tempB, b, "from b") 
+        }
     })
-
 })
 
 
 //Operate
-
-function operate(firstNum, secondNum=null){
-    firstNum = a
-    if (secondNum === null) {
-        numbers.forEach((number) =>{
-            number.addEventListener("click", ()=> {
-                display.textContent = number.textContent
-                secondNum = number.textContent
-                console.log(SecondNum)
-            })
-        
-        })
+let result = 0
+function operate(firstNum, operator, secondNum){
+    firstNum = firstNum * 1
+    secondNum = secondNum * 1
+    if (operator === "add"){
+        result = firstNum + secondNum
+    } else if (operator === "subtract"){
+        result = firstNum - secondNum
+    } else if (operator === "multiply"){
+        result = firstNum * secondNum
+    }else {
+        result = firstNum / secondNum
     }
-    let result = firstNum + secondNum
-    console.log(result, firstNum, secondNum)
+    console.log(result)
+}
+
+//Operate execution
+equalBtn.addEventListener("click", () => {
+    operate(a, operator, b)
+    clear()
+})
+
+//Clear function
+const clearBtn = document.querySelector(".clear")
+clearBtn.addEventListener("click", () => {
+    clear()
+})
+
+function clear(){
+    switchA = 0
+    tempA = ""
+    tempB = ""
+    a = 0
+    b = 0
+    display.textContent = "0"
 }
