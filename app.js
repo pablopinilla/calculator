@@ -35,38 +35,100 @@ addBtn.addEventListener("click", ()=> {
     if (switchA === 0 && switchB === 1){
     switchA = 1
     switchB = 0
-    display.textContent = a + "+"
+    if (temporal === null) {
+        result = 0
+        temporal = tempA
+        operator = "add"
+        return
+    }
+    operate(temporal, operator, a)
     operator = "add"
-    console.log(operator)
-    } else if (switchA === 1 && switchB === 0){
-    operate(a, operator, b)
     temporal = result
-    console.log("RESULT IS " + temporal)
+    display.textContent = temporal
+    } else if (switchA === 1 && switchB === 0){
+    operate(temporal, operator, b)
+    operator = "add"
+    temporal = result
     switchA = 0
     switchB = 1
-    display.textContent = "+"
-    operator = "add"
-    console.log(operator)
     clear()
+    display.textContent = temporal
     }
 })
 subtractBtn.addEventListener("click", ()=> {
-    switchA = 1
-    display.textContent = "-"
-    operator = "subtract"
-    console.log(operator)
+    if (switchA === 0 && switchB === 1){
+        switchA = 1
+        switchB = 0
+        if (temporal === null) {
+            result = 0
+            temporal = tempA
+            operator = "subtract"
+            return
+        }
+        operate(temporal, operator, a)
+        operator = "subtract"
+        temporal = result
+        console.log("=)")
+        display.textContent = temporal
+        } else if (switchA === 1 && switchB === 0){
+        operate(temporal, operator, b)
+        temporal = result
+        switchA = 0
+        switchB = 1
+        operator = "subtract"
+        clear()
+        display.textContent = temporal
+        }
 })
 multiplyBtn.addEventListener("click", ()=> {
-    switchA = 1
-    display.textContent = "*"
-    operator = "multiply"
-    console.log(operator)
+    if (switchA === 0 && switchB === 1){
+        switchA = 1
+        switchB = 0
+        if (temporal === null) {
+            result = 0
+            temporal = tempA
+            operator = "multiply"
+            return
+        }
+        operate(temporal, operator, a)
+        operator = "multiply"
+        temporal = result
+        console.log("=)")
+        display.textContent = temporal
+        } else if (switchA === 1 && switchB === 0){
+        operate(temporal, operator, b)
+        temporal = result
+        switchA = 0
+        switchB = 1
+        operator = "multiply"
+        clear()
+        display.textContent = temporal
+        }
 })
 divideBtn.addEventListener("click", ()=> {
-    switchA = 1
-    display.textContent = "/"
-    operator = "divide"
-    console.log(operator)
+    if (switchA === 0 && switchB === 1){
+        switchA = 1
+        switchB = 0
+        if (temporal === null) {
+            result = 0
+            temporal = tempA
+            console.log(temporal, ":c")
+            operator = "divide"
+            return
+        }
+        operate(temporal, operator, a)
+        operator = "divide"
+        temporal = result
+        display.textContent = temporal
+        } else if (switchA === 1 && switchB === 0){
+        operate(temporal, operator, b)
+        temporal = result
+        switchA = 0
+        switchB = 1
+        operator = "divide"
+        clear()
+        display.textContent = temporal
+        }
 })
 
 
@@ -83,45 +145,22 @@ const eight = document.querySelector("#eight")
 const nine = document.querySelector("#nine")
 const numbers = document.querySelectorAll(".number")
 const display = document.querySelector(".display")
-let value = 0
 
-let temporal = 0
+
+let temporal = null
 let tempA = ""
 let tempB = ""
+
 numbers.forEach((number) =>{
     number.addEventListener("click", ()=> {
-        if (temporal !== 0){
-            if (switchA === 0){
-                tempA = tempA + number.textContent
-                display.textContent = tempA
-                a = tempA 
-                console.log(tempA, a, "from a")
-                operate(temporal, operator, a)
-                temporal = result   
-            } else {
-                tempB = tempB + number.textContent
-                display.textContent = tempB
-                b = tempB
-                console.log(tempB, b, "from b")
-                operate(temporal, operator, b)
-                temporal = result
-                console.log("RESULT IS " + result)
-                return temporal = result
-            }  
-        }
         if (switchA === 0){
             tempA = tempA + number.textContent
             display.textContent = tempA
-            a = tempA
-            console.log(tempA, a, "from a")   
+            a = tempA 
         } else {
             tempB = tempB + number.textContent
             display.textContent = tempB
             b = tempB
-            
-            console.log(tempB, b, "from b")
-            //temporal = result
-            console.log("RESULT IS " + result)
         }
     })
 })
@@ -146,11 +185,12 @@ function operate(firstNum, operator, secondNum){
 
 //Operate execution
 equalBtn.addEventListener("click", () => {
-    if (temporal === 0){
-        operate(a, operator, b)
+    if (switchA === 0 && switchB === 1){
+        operate(temporal, operator, a)
+        display.textContent = result
         return result
     } else {
-        console.log("result is " + result)
+        operate(temporal, operator, b)
         display.textContent = result
         return result
         
@@ -161,7 +201,7 @@ equalBtn.addEventListener("click", () => {
 //Clear function
 const clearBtn = document.querySelector(".clear")
 clearBtn.addEventListener("click", () => {
-    temporal = 0
+    temporal = null
     clear()
 })
 
